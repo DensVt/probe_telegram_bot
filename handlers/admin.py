@@ -4,6 +4,7 @@ from aiogram import types, Dispatcher
 from create_bot import bot  # ОТКЛЮЧИТЬ / ПОДКЛЮЧИТЬ ПРОВЕРКУ НА АДМИНИСТРАТОРА !!!
 from aiogram.dispatcher.filters import Text
 from data_base import sqlite_db
+from keybords import admin_kb
 
 ID = None  # ОТКЛЮЧИТЬ / ПОДКЛЮЧИТЬ ПРОВЕРКУ НА АДМИНИСТРАТОРА !!!
 
@@ -16,11 +17,11 @@ class FSMAdmin(StatesGroup):  # Класс с 4 пунктами, последо
 
 
 #  Получаем ID текущего модератора
-# @dp.message_handler(commands=["moderator"], if_chat_admin=True)
+# @dp.message_handler(commands=["moderator"], is_chat_admin=True)
 async def make_changes_command(message: types.Message):
     global ID
     ID = message.from_user.id  # проверка на администратора
-    await bot.send_message(message.from_user.id, "Что конкретно нужно?")  # , reply_markup=button_case_admin)
+    await bot.send_message(message.from_user.id, "Что конкретно нужно?", reply_markup=admin_kb.button_case_admin)
     await message.delete()
 
 
@@ -29,7 +30,7 @@ async def make_changes_command(message: types.Message):
 
 # базовый хендлер, который запускает нашу машину состояний
 # Начало диалога загрузки нового пункта меню
-# @dp.message_handler(command="Загрузить", state=None)   # декоратор
+# @dp.message_handler(commands="Загрузить", state=None)   # декоратор
 async def cm_start(message: types.Message):
     if message.from_user.id == ID:  # ОТКЛЮЧИТЬ / ПОДКЛЮЧИТЬ ПРОВЕРКУ НА АДМИНИСТРАТОРА !!!
         await FSMAdmin.photo.set()
