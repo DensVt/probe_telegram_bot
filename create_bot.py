@@ -3,7 +3,7 @@ from aiogram.dispatcher import Dispatcher
 import os
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 
-storage = MemoryStorage()  #() запускает класс!
+storage = MemoryStorage()  # () запускает класс!
 
 bot = Bot(token=os.getenv("TOKEN"))
 dp = Dispatcher(bot, storage=storage)
